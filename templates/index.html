@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Brew & Co. — Specialty Coffee{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Portland's Finest Roastery</p>
+    <h1>Coffee Worth <em>Waking Up</em> For</h1>
+    <p>Single-origin beans, roasted in small batches. Every cup tells a story — from farm to your hands.</p>
+    <div class="hero-actions">
+      <a href="{{ url_for('menu') }}" class="btn btn-accent">Explore the Menu</a>
+      <a href="{{ url_for('menu') }}?category=Beans" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,0.5);">Shop Beans</a>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Products -->
+<section class="section">
+  <div class="section-header">
+    <h2>Featured Drinks</h2>
+    <a href="{{ url_for('menu') }}">See full menu &rarr;</a>
+  </div>
+  <div class="product-grid">
+    {% for product in featured %}
+    <div class="product-card">
+      <div class="product-card-img-placeholder">&#9749;</div>
+      <div class="product-card-body">
+        <p class="product-card-category">{{ product.category }}</p>
+        <h3 class="product-card-name">{{ product.name }}</h3>
+        <p class="product-card-desc">{{ product.description }}</p>
+        <div class="product-card-footer">
+          <span class="product-price">${{ "%.2f"|format(product.price) }}</span>
+          <a href="{{ url_for('product', product_id=product.id) }}" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- About Strip -->
+<section class="about-strip">
+  <div class="about-strip-inner">
+    <div>
+      <h2>Roasted with Purpose</h2>
+      <p>We work directly with farmers across Ethiopia, Colombia, and Guatemala — paying above fair-trade prices because great coffee starts with great relationships.</p>
+      <p>Our roastery is open to visitors every Saturday morning. Come see how your coffee goes from green bean to the perfect roast.</p>
+      <br>
+      <a href="{{ url_for('menu') }}" class="btn btn-accent">Shop Our Beans</a>
+    </div>
+    <div class="about-stats">
+      <div class="stat">
+        <span class="stat-number">12+</span>
+        <span class="stat-label">Origin Countries</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">8</span>
+        <span class="stat-label">Years Roasting</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">500+</span>
+        <span class="stat-label">Happy Regulars</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">100%</span>
+        <span class="stat-label">Direct Trade</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

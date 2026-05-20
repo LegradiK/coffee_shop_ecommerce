@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Menu — Brew & Co.{% endblock %}
+
+{% block content %}
+<div class="page">
+  <h1 class="page-title">Our Menu</h1>
+  <p class="page-subtitle">{{ products|length }} item{% if products|length != 1 %}s{% endif %} available</p>
+
+  <!-- Category Filter -->
+  <div class="category-bar">
+    {% for cat in categories %}
+    <a href="{{ url_for('menu') }}?category={{ cat }}"
+       class="category-btn {% if cat == active_category %}active{% endif %}">
+      {{ cat }}
+    </a>
+    {% endfor %}
+  </div>
+
+  <!-- Product Grid -->
+  {% if products %}
+  <div class="product-grid">
+    {% for product in products %}
+    <div class="product-card">
+      <div class="product-card-img-placeholder">
+        {% if product.category == "Hot Drinks" %}&#9749;
+        {% elif product.category == "Cold Drinks" %}&#129380;
+        {% elif product.category == "Pastries" %}&#129360;
+        {% else %}&#127807;{% endif %}
+      </div>
+      <div class="product-card-body">
+        <p class="product-card-category">{{ product.category }}</p>
+        <h3 class="product-card-name">{{ product.name }}</h3>
+        <p class="product-card-desc">{{ product.description }}</p>
+        <div class="product-card-footer">
+          <span class="product-price">${{ "%.2f"|format(product.price) }}</span>
+          <a href="{{ url_for('product', product_id=product.id) }}" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p style="color: var(--text-mid); padding: 3rem 0;">No products found in this category.</p>
+  {% endif %}
+</div>
+{% endblock %}

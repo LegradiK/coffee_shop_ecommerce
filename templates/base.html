@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Brew & Co.{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-logo" href="{{ url_for('index') }}">Brew<span> &amp; Co.</span></a>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('menu') }}">Menu</a></li>
+        <li><a href="{{ url_for('menu') }}?category=Beans">Beans</a></li>
+      </ul>
+      <a class="nav-cart" href="{{ url_for('cart') }}">
+        &#128722;
+        {% if cart_count > 0 %}
+          <span class="cart-badge">{{ cart_count }}</span>
+        {% endif %}
+      </a>
+    </div>
+  </nav>
+
+  {% block content %}{% endblock %}
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>Brew &amp; Co.</h4>
+        <p>Specialty coffee, freshly roasted<br>and brewed with care since 2015.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Visit Us</h4>
+        <p>123 Roastery Lane<br>Portland, OR 97201</p>
+        <p>Mon–Fri 7am – 7pm<br>Sat–Sun 8am – 5pm</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="{{ url_for('menu') }}">All Products</a>
+        <a href="{{ url_for('menu') }}?category=Hot+Drinks">Hot Drinks</a>
+        <a href="{{ url_for('menu') }}?category=Cold+Drinks">Cold Drinks</a>
+        <a href="{{ url_for('menu') }}?category=Pastries">Pastries</a>
+        <a href="{{ url_for('menu') }}?category=Beans">Beans</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="mailto:hello@brewandco.com">hello@brewandco.com</a>
+        <a href="tel:+15031234567">(503) 123-4567</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Brew &amp; Co. All rights reserved.
+    </div>
+  </footer>
+
+</body>
+</html>
