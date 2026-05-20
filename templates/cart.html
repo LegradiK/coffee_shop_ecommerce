@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Cart — Brew & Co.{% endblock %}
+{% block title %}Cart — Kettle & Kiln{% endblock %}
 
 {% block content %}
 <div class="page">
@@ -24,12 +24,7 @@
           <tr>
             <td>
               <div class="cart-product-info">
-                <div class="cart-product-thumb-placeholder">
-                  {% if item.product.category == "Hot Drinks" %}&#9749;
-                  {% elif item.product.category == "Cold Drinks" %}&#129380;
-                  {% elif item.product.category == "Pastries" %}&#129360;
-                  {% else %}&#127807;{% endif %}
-                </div>
+                <img class="cart-product-thumb" src="{{ url_for('static', filename='images/' + item.product.image) }}" alt="{{ item.product.name }}">
                 <div>
                   <a href="{{ url_for('product', product_id=item.product.id) }}" class="cart-product-name">{{ item.product.name }}</a>
                   <p class="cart-product-cat">{{ item.product.category }}</p>
@@ -43,7 +38,7 @@
                 <button type="submit" class="cart-qty-save">Update</button>
               </form>
             </td>
-            <td>${{ "%.2f"|format(item.subtotal) }}</td>
+            <td>&pound;{{ "%.2f"|format(item.subtotal) }}</td>
             <td>
               <form action="{{ url_for('remove_from_cart', product_id=item.product.id) }}" method="POST">
                 <button type="submit" class="btn btn-danger">Remove</button>
@@ -64,7 +59,7 @@
       <h3>Order Summary</h3>
       <div class="summary-row">
         <span>Subtotal</span>
-        <span>${{ "%.2f"|format(total) }}</span>
+        <span>&pound;{{ "%.2f"|format(total) }}</span>
       </div>
       <div class="summary-row">
         <span>Shipping</span>
@@ -72,7 +67,7 @@
       </div>
       <div class="summary-row total">
         <span>Total</span>
-        <span>${{ "%.2f"|format(total) }}</span>
+        <span>&pound;{{ "%.2f"|format(total) }}</span>
       </div>
       <a href="{{ url_for('checkout') }}" class="btn btn-accent">Proceed to Checkout</a>
     </div>

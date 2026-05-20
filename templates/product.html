@@ -1,17 +1,12 @@
 {% extends "base.html" %}
-{% block title %}{{ product.name }} — Brew & Co.{% endblock %}
+{% block title %}{{ product.name }} — Kettle & Kiln{% endblock %}
 
 {% block content %}
 <div class="page">
   <!-- Product Detail -->
   <div class="product-detail">
     <!-- Image -->
-    <div class="product-detail-img-placeholder">
-      {% if product.category == "Hot Drinks" %}&#9749;
-      {% elif product.category == "Cold Drinks" %}&#129380;
-      {% elif product.category == "Pastries" %}&#129360;
-      {% else %}&#127807;{% endif %}
-    </div>
+    <img class="product-detail-img" src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
 
     <!-- Info -->
     <div class="product-detail-info">
@@ -23,7 +18,7 @@
       </p>
 
       <h1>{{ product.name }}</h1>
-      <p class="product-detail-price">${{ "%.2f"|format(product.price) }}</p>
+      <p class="product-detail-price">&pound;{{ "%.2f"|format(product.price) }}</p>
       <p class="product-detail-desc">{{ product.description }}</p>
 
       <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST">
@@ -35,7 +30,7 @@
       </form>
 
       <p style="margin-top:1.25rem; font-family:'Arial',sans-serif; font-size:0.82rem; color:var(--text-light);">
-        Free pickup in-store &bull; Ships within 2 business days (beans only)
+        Free collection in-store &bull; Delivered within 2–3 working days (beans only)
       </p>
     </div>
   </div>
@@ -47,18 +42,13 @@
     <div class="product-grid">
       {% for item in related %}
       <div class="product-card">
-        <div class="product-card-img-placeholder">
-          {% if item.category == "Hot Drinks" %}&#9749;
-          {% elif item.category == "Cold Drinks" %}&#129380;
-          {% elif item.category == "Pastries" %}&#129360;
-          {% else %}&#127807;{% endif %}
-        </div>
+        <img class="product-card-img" src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}">
         <div class="product-card-body">
           <p class="product-card-category">{{ item.category }}</p>
           <h3 class="product-card-name">{{ item.name }}</h3>
           <p class="product-card-desc">{{ item.description }}</p>
           <div class="product-card-footer">
-            <span class="product-price">${{ "%.2f"|format(item.price) }}</span>
+            <span class="product-price">&pound;{{ "%.2f"|format(item.price) }}</span>
             <a href="{{ url_for('product', product_id=item.id) }}" class="btn btn-primary">View</a>
           </div>
         </div>

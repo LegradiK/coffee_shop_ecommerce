@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Brew & Co. — Specialty Coffee{% endblock %}
+{% block title %}Kettle & Kiln — Specialty Coffee{% endblock %}
 
 {% block content %}
 
@@ -25,13 +25,13 @@
   <div class="product-grid">
     {% for product in featured %}
     <div class="product-card">
-      <div class="product-card-img-placeholder">&#9749;</div>
+      <img class="product-card-img" src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
       <div class="product-card-body">
         <p class="product-card-category">{{ product.category }}</p>
         <h3 class="product-card-name">{{ product.name }}</h3>
         <p class="product-card-desc">{{ product.description }}</p>
         <div class="product-card-footer">
-          <span class="product-price">${{ "%.2f"|format(product.price) }}</span>
+          <span class="product-price">&pound;{{ "%.2f"|format(product.price) }}</span>
           <a href="{{ url_for('product', product_id=product.id) }}" class="btn btn-primary">View</a>
         </div>
       </div>

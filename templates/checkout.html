@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Checkout — Brew & Co.{% endblock %}
+{% block title %}Checkout — Kettle & Kiln{% endblock %}
 
 {% block content %}
 <div class="page">
@@ -9,7 +9,7 @@
   <div class="order-success">
     <div class="order-success-icon">&#9749;</div>
     <h2>Order Placed!</h2>
-    <p>Thanks for your order. We'll have it ready for pickup or ship it within 2 business days. A confirmation will be sent to your email.</p>
+    <p>Thanks for your order. We'll have it ready for collection or deliver it within 2–3 working days. A confirmation will be sent to your email.</p>
     <a href="{{ url_for('index') }}" class="btn btn-accent">Back to Home</a>
   </div>
 
@@ -40,7 +40,7 @@
         </div>
         <div class="form-group">
           <label for="phone">Phone (optional)</label>
-          <input type="tel" id="phone" name="phone" placeholder="(503) 555-0100">
+          <input type="tel" id="phone" name="phone" placeholder="07700 900123">
         </div>
       </div>
 
@@ -51,8 +51,8 @@
           <label for="delivery">Option</label>
           <select id="delivery" name="delivery">
             <option value="pickup">In-Store Pickup (free)</option>
-            <option value="standard">Standard Shipping ($4.99)</option>
-            <option value="express">Express Shipping ($9.99)</option>
+            <option value="standard">Standard Delivery (&pound;3.99)</option>
+            <option value="express">Express Delivery (&pound;7.99)</option>
           </select>
         </div>
       </div>
@@ -62,26 +62,28 @@
         <h3>Shipping Address</h3>
         <div class="form-group">
           <label for="address">Street Address</label>
-          <input type="text" id="address" name="address" placeholder="123 Main St">
+          <input type="text" id="address" name="address" placeholder="14 Brick Lane">
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label for="city">City</label>
-            <input type="text" id="city" name="city" placeholder="Portland">
+            <label for="city">Town / City</label>
+            <input type="text" id="city" name="city" placeholder="London">
           </div>
           <div class="form-group">
-            <label for="zip">ZIP Code</label>
-            <input type="text" id="zip" name="zip" placeholder="97201">
+            <label for="zip">Postcode</label>
+            <input type="text" id="zip" name="zip" placeholder="E1 6RF">
           </div>
         </div>
         <div class="form-group">
-          <label for="state">State</label>
-          <select id="state" name="state">
-            <option value="">Select state…</option>
-            <option value="OR">Oregon</option>
-            <option value="WA">Washington</option>
-            <option value="CA">California</option>
-            <option value="ID">Idaho</option>
+          <label for="county">County (optional)</label>
+          <select id="county" name="county">
+            <option value="">Select county…</option>
+            <option value="greater-london">Greater London</option>
+            <option value="surrey">Surrey</option>
+            <option value="kent">Kent</option>
+            <option value="essex">Essex</option>
+            <option value="hertfordshire">Hertfordshire</option>
+            <option value="other">Other</option>
           </select>
         </div>
       </div>
@@ -106,7 +108,7 @@
       </div>
 
       <button type="submit" class="btn btn-accent" style="width:100%;text-align:center;">
-        Place Order &mdash; ${{ "%.2f"|format(total) }}
+        Place Order &mdash; &pound;{{ "%.2f"|format(total) }}
       </button>
     </form>
 
@@ -117,20 +119,20 @@
       <div class="checkout-item">
         <span class="cart-product-name">{{ item.product.name }}</span>
         <span class="checkout-item-qty">x{{ item.qty }}</span>
-        <span class="checkout-item-price">${{ "%.2f"|format(item.subtotal) }}</span>
+        <span class="checkout-item-price">&pound;{{ "%.2f"|format(item.subtotal) }}</span>
       </div>
       {% endfor %}
       <div class="summary-row" style="margin-top:0.75rem;">
         <span>Subtotal</span>
-        <span>${{ "%.2f"|format(total) }}</span>
+        <span>&pound;{{ "%.2f"|format(total) }}</span>
       </div>
       <div class="summary-row">
-        <span>Shipping</span>
+        <span>Delivery</span>
         <span>TBD</span>
       </div>
       <div class="summary-row total">
         <span>Total</span>
-        <span>${{ "%.2f"|format(total) }}</span>
+        <span>&pound;{{ "%.2f"|format(total) }}</span>
       </div>
     </div>
   </div>
