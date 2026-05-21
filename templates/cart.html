@@ -5,6 +5,10 @@
 <div class="page">
   <h1 class="page-title">Your Cart</h1>
 
+  <div style="margin-top:1.5rem;">
+    <a href="{{ url_for('menu') }}" class="back-btn">&#8592; Back to Our Beans</a>
+  </div>
+
   {% if items %}
   <div class="cart-layout">
     <!-- Items Table -->
@@ -52,9 +56,6 @@
         </tbody>
       </table>
 
-      <div style="margin-top:1.5rem;">
-        <a href="{{ url_for('menu') }}" class="back-btn">&#8592; Back to Our Beans</a>
-      </div>
     </div>
 
     <!-- Order Summary -->
