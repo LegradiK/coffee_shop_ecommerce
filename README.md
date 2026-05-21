@@ -27,7 +27,7 @@ A lightweight, full-stack e-commerce website for a fictional specialty coffee ro
 | Data storage | JSON flat files (`products.json`, `orders.json`) |
 | Session handling | Flask server-side sessions (cookie-based) |
 
-No database, no external JS framework, no build step — the project runs with a single `python main.py` command.
+No database, no external JS framework, no build step — the project runs with a single `python3 main.py` command.
 
 ---
 
@@ -38,6 +38,8 @@ coffee_shop_ecommerce/
 ├── main.py               # Flask app — all routes and business logic
 ├── products.json         # Product catalogue (beans)
 ├── orders.json           # Persisted order records
+├── .gitignore
+├── README.md             
 ├── static/
 │   ├── css/
 │   │   └── style.css     # All site styles
@@ -97,7 +99,7 @@ Customers can visit **Track Order** (in the nav) and enter their email address a
 
 3. Start the development server:
    ```bash
-   python main.py
+   python3 main.py
    ```
 
 4. Open `http://127.0.0.1:5000` in your browser.
