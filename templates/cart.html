@@ -31,11 +31,14 @@
                 </div>
               </div>
             </td>
-            <td>${{ "%.2f"|format(item.product.price) }}</td>
+            <td>&pound;{{ "%.2f"|format(item.product.price) }}</td>
             <td>
               <form class="cart-qty-form" action="{{ url_for('update_cart', product_id=item.product.id) }}" method="POST">
-                <input class="cart-qty-input" type="number" name="quantity" value="{{ item.qty }}" min="0" max="20">
-                <button type="submit" class="cart-qty-save">Update</button>
+                <div class="card-qty-control">
+                  <button type="button" class="qty-btn" onclick="cartStep(this, -1)">&#8722;</button>
+                  <input class="card-qty-input" type="number" name="quantity" value="{{ item.qty }}" min="0" max="20" readonly>
+                  <button type="button" class="qty-btn" onclick="cartStep(this, 1)">&#43;</button>
+                </div>
               </form>
             </td>
             <td>&pound;{{ "%.2f"|format(item.subtotal) }}</td>
@@ -50,7 +53,7 @@
       </table>
 
       <div style="margin-top:1.5rem;">
-        <a href="{{ url_for('menu') }}" class="btn btn-outline">&larr; Continue Shopping</a>
+        <a href="{{ url_for('menu') }}" class="back-btn">&#8592; Back to Our Beans</a>
       </div>
     </div>
 
@@ -80,4 +83,15 @@
   </div>
   {% endif %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function cartStep(btn, delta) {
+  const form = btn.closest('form');
+  const input = form.querySelector('input[name="quantity"]');
+  input.value = Math.max(0, Math.min(20, parseInt(input.value) + delta));
+  form.submit();
+}
+</script>
 {% endblock %}

@@ -3,6 +3,8 @@
 
 {% block content %}
 <div class="page">
+  <a href="javascript:history.back()" class="back-btn">&#8592; Back to Our Beans</a>
+
   <!-- Product Detail -->
   <div class="product-detail">
     <!-- Image -->
@@ -12,7 +14,7 @@
     <div class="product-detail-info">
       <p class="breadcrumb">
         <a href="{{ url_for('index') }}">Home</a> &rsaquo;
-        <a href="{{ url_for('menu') }}">Menu</a> &rsaquo;
+        <a href="{{ url_for('menu') }}">Our Beans</a> &rsaquo;
         <a href="{{ url_for('menu') }}?category={{ product.category }}">{{ product.category }}</a> &rsaquo;
         {{ product.name }}
       </p>
@@ -30,7 +32,7 @@
       </form>
 
       <p style="margin-top:1.25rem; font-family:'Arial',sans-serif; font-size:0.82rem; color:var(--text-light);">
-        Free collection in-store &bull; Delivered within 2–3 working days (beans only)
+        Free collection in-store &bull; Delivered within 2–3 working days
       </p>
     </div>
   </div>

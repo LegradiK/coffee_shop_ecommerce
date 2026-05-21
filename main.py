@@ -1,5 +1,6 @@
 import os
 import json
+from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
@@ -13,6 +14,32 @@ for p in PRODUCTS:
     p["category"] = p["roast"]
 
 CATEGORIES = ["All"] + sorted(set(p["roast"] for p in PRODUCTS))
+
+
+ORDERS_FILE = os.path.join(os.path.dirname(__file__), "orders.json")
+
+DELIVERY_FEES = {
+    "pickup": 0.00,
+    "standard": 3.99,
+    "express": 7.99,
+}
+
+
+def load_orders():
+    with open(ORDERS_FILE) as f:
+        return json.load(f)
+
+
+def next_order_number():
+    orders = load_orders()
+    return f"KK-{1001 + len(orders)}"
+
+
+def save_order(order):
+    orders = load_orders()
+    orders.append(order)
+    with open(ORDERS_FILE, "w") as f:
+        json.dump(orders, f, indent=2)
 
 
 def get_product(product_id):
@@ -59,11 +86,11 @@ def menu():
 
 @app.route("/product/<int:product_id>")
 def product(product_id):
-    item = get_product(product_id)
-    if not item:
+    p = get_product(product_id)
+    if p is None:
         return redirect(url_for("menu"))
-    related = [p for p in PRODUCTS if p["category"] == item["category"] and p["id"] != item["id"]][:3]
-    return render_template("product.html", product=item, related=related)
+    related = [x for x in PRODUCTS if x["category"] == p["category"] and x["id"] != p["id"]][:3]
+    return render_template("product.html", product=p, related=related)
 
 
 @app.route("/cart/add/<int:product_id>", methods=["POST"])
@@ -120,9 +147,60 @@ def checkout():
             items.append({"product": p, "qty": qty, "subtotal": round(p["price"] * qty, 2)})
     total = cart_total(raw_cart)
     if request.method == "POST":
+        delivery = request.form.get("delivery", "pickup")
+        delivery_fee = DELIVERY_FEES.get(delivery, 0.00)
+        grand_total = round(total + delivery_fee, 2)
+        order_number = next_order_number()
+        save_order({
+            "order_number": order_number,
+            "timestamp": datetime.now().isoformat(),
+            "customer": {
+                "first_name": request.form.get("first_name"),
+                "last_name": request.form.get("last_name"),
+                "email": request.form.get("email"),
+                "phone": request.form.get("phone"),
+            },
+            "delivery": delivery,
+            "delivery_fee": delivery_fee,
+            "address": {
+                "street": request.form.get("address"),
+                "city": request.form.get("city"),
+                "postcode": request.form.get("zip"),
+                "county": request.form.get("county"),
+            },
+            "items": [
+                {"id": i["product"]["id"], "name": i["product"]["name"],
+                 "qty": i["qty"], "price": i["product"]["price"], "subtotal": i["subtotal"]}
+                for i in items
+            ],
+            "subtotal": total,
+            "total": grand_total,
+        })
         session["cart"] = {}
-        return render_template("checkout.html", items=items, total=total, order_placed=True)
-    return render_template("checkout.html", items=items, total=total, order_placed=False)
+        return render_template("checkout.html", items=items, total=total,
+                               delivery_fee=delivery_fee, grand_total=grand_total,
+                               order_placed=True, order_number=order_number)
+    return render_template("checkout.html", items=items, total=total,
+                           delivery_fees=DELIVERY_FEES, order_placed=False)
+
+
+@app.route("/order", methods=["GET", "POST"])
+def order_lookup():
+    order = None
+    error = None
+    if request.method == "POST":
+        email = request.form.get("email", "").strip().lower()
+        order_number = request.form.get("order_number", "").strip().upper()
+        orders = load_orders()
+        order = next(
+            (o for o in orders
+             if o["order_number"].upper() == order_number
+             and o["customer"]["email"].lower() == email),
+            None
+        )
+        if not order:
+            error = "No order found with that email and order number."
+    return render_template("order.html", order=order, error=error)
 
 
 if __name__ == "__main__":

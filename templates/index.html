@@ -10,8 +10,7 @@
     <h1>Coffee Worth <em>Waking Up</em> For</h1>
     <p>Single-origin beans, roasted in small batches. Every cup tells a story — from farm to your hands.</p>
     <div class="hero-actions">
-      <a href="{{ url_for('menu') }}" class="btn btn-accent">Explore the Menu</a>
-      <a href="{{ url_for('menu') }}?category=Beans" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,0.5);">Shop Beans</a>
+      <a href="{{ url_for('menu') }}" class="btn btn-accent">Explore Our Beans</a>
     </div>
   </div>
 </section>
@@ -19,8 +18,8 @@
 <!-- Featured Products -->
 <section class="section">
   <div class="section-header">
-    <h2>Featured Drinks</h2>
-    <a href="{{ url_for('menu') }}">See full menu &rarr;</a>
+    <h2>From Light to Dark</h2>
+    <a href="{{ url_for('menu') }}">See all beans &rarr;</a>
   </div>
   <div class="product-grid">
     {% for product in featured %}

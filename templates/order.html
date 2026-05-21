@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}Track Your Order — Kettle & Kiln{% endblock %}
+
+{% block content %}
+<div class="page">
+  <h1 class="page-title">Track Your Order</h1>
+  <p class="page-subtitle">Enter your email and order number to view your order details.</p>
+
+  <div class="order-lookup-wrap">
+
+    <!-- Lookup Form -->
+    <form class="order-lookup-form" method="POST" action="{{ url_for('order_lookup') }}">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required placeholder="jane@example.com"
+               value="{{ request.form.get('email', '') }}">
+      </div>
+      <div class="form-group">
+        <label for="order_number">Order Number</label>
+        <input type="text" id="order_number" name="order_number" required placeholder="KK-1001"
+               value="{{ request.form.get('order_number', '') }}">
+      </div>
+      {% if error %}
+      <p class="lookup-error">{{ error }}</p>
+      {% endif %}
+      <button type="submit" class="btn btn-accent" style="width:100%;text-align:center;">Find My Order</button>
+    </form>
+
+    <!-- Order Result -->
+    {% if order %}
+    <div class="order-result">
+      <div class="order-result-header">
+        <div>
+          <p class="order-number-label">Order Number</p>
+          <p class="order-number" style="font-size:1.2rem;margin-bottom:0;">{{ order.order_number }}</p>
+        </div>
+        <div>
+          <p class="order-number-label">Date</p>
+          <p class="order-result-meta">{{ order.timestamp[:10] }}</p>
+        </div>
+        <div>
+          <p class="order-number-label">Delivery</p>
+          <p class="order-result-meta">{{ order.delivery | capitalize }}</p>
+        </div>
+        <div>
+          <p class="order-number-label">Customer</p>
+          <p class="order-result-meta">{{ order.customer.first_name }} {{ order.customer.last_name }}</p>
+        </div>
+      </div>
+
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Unit Price</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in order['items'] %}
+          <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.qty }}</td>
+            <td>&pound;{{ "%.2f"|format(item.price) }}</td>
+            <td>&pound;{{ "%.2f"|format(item.subtotal) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      {% set fee = order.delivery_fee | default(0) %}
+      {% if fee > 0 %}
+      <div class="order-result-fee">
+        <span>Delivery</span>
+        <span>&pound;{{ "%.2f"|format(fee) }}</span>
+      </div>
+      {% endif %}
+      <div class="order-result-total">
+        <span>Total</span>
+        <span>&pound;{{ "%.2f"|format(order.total) }}</span>
+      </div>
+
+      {% if order.address.street %}
+      <div class="order-result-address">
+        <p class="order-number-label">Delivery Address</p>
+        <p>{{ order.customer.first_name }} {{ order.customer.last_name }}</p>
+        <p>{{ order.address.street }}</p>
+        <p>{{ order.address.city }}{% if order.address.postcode %}, {{ order.address.postcode }}{% endif %}</p>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

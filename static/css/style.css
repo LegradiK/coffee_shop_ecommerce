@@ -215,6 +215,18 @@ footer {
   color: var(--white);
 }
 
+.back-btn {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: var(--brown-mid);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.back-btn:hover {
+  text-decoration: underline;
+}
+
 .btn-danger {
   background: transparent;
   color: var(--red);
@@ -439,8 +451,11 @@ footer {
 
 .product-card-name {
   font-size: 1.1rem;
+  line-height: 1.4;
+  height: calc(1.1rem * 1.4 * 2);
   color: var(--brown-dark);
   margin-bottom: 0.4rem;
+  overflow: hidden;
 }
 
 .product-card-desc {
@@ -464,6 +479,64 @@ footer {
   font-size: 1.15rem;
   font-weight: bold;
   color: var(--brown-mid);
+}
+
+.product-card-footer .btn,
+.card-buy-form .btn {
+  width: 6rem;
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
+}
+
+.card-buy-form {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--cream-dark);
+}
+
+.card-qty-control {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.qty-btn {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  border: none;
+  background: var(--cream-dark);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
+}
+
+.qty-btn:hover {
+  background: var(--brown-mid);
+  color: var(--white);
+}
+
+.card-qty-input {
+  width: 2.25rem;
+  text-align: center;
+  border: 1px solid var(--cream-dark);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  padding: 0.2rem 0;
+  -moz-appearance: textfield;
+}
+
+.card-qty-input::-webkit-outer-spin-button,
+.card-qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }
 
 /* ── MENU PAGE ─────────────────────────────────────── */
@@ -857,6 +930,81 @@ footer {
   white-space: nowrap;
 }
 
+/* ── ORDER LOOKUP ──────────────────────────────────── */
+.order-lookup-wrap {
+  max-width: 640px;
+}
+
+.order-lookup-form {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.lookup-error {
+  color: var(--red);
+  font-family: 'Arial', sans-serif;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.order-result {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 2rem;
+}
+
+.order-result-header {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--cream-dark);
+}
+
+.order-result-meta {
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  font-family: 'Arial', sans-serif;
+}
+
+.order-result-fee {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2rem;
+  color: var(--text-mid);
+  font-family: 'Arial', sans-serif;
+  font-size: 0.9rem;
+  padding-top: 0.75rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--cream-dark);
+}
+
+.order-result-total {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2rem;
+  font-weight: bold;
+  color: var(--brown-dark);
+  padding-top: 0.75rem;
+  margin-top: 0.25rem;
+  border-top: 2px solid var(--cream-dark);
+}
+
+.order-result-address {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--cream-dark);
+  font-family: 'Arial', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-mid);
+  line-height: 1.8;
+}
+
 /* ── ORDER SUCCESS ─────────────────────────────────── */
 .order-success {
   text-align: center;
@@ -881,6 +1029,23 @@ footer {
   font-size: 1rem;
   margin-bottom: 2rem;
   line-height: 1.7;
+}
+
+.order-number-label {
+  font-family: 'Arial', sans-serif;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-light);
+  margin-bottom: 0.25rem !important;
+}
+
+.order-number {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: var(--brown-mid);
+  letter-spacing: 0.08em;
+  margin-bottom: 1.5rem !important;
 }
 
 /* ── RESPONSIVE ────────────────────────────────────── */

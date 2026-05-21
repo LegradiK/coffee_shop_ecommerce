@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Menu — Kettle & Kiln{% endblock %}
+{% block title %}Our Beans — Kettle & Kiln{% endblock %}
 
 {% block content %}
 <div class="page">
-  <h1 class="page-title">Our Menu</h1>
+  <h1 class="page-title">Our Beans</h1>
   <p class="page-subtitle">{{ products|length }} item{% if products|length != 1 %}s{% endif %} available</p>
 
   <!-- Category Filter -->
@@ -30,6 +30,14 @@
           <span class="product-price">&pound;{{ "%.2f"|format(product.price) }}</span>
           <a href="{{ url_for('product', product_id=product.id) }}" class="btn btn-primary">View</a>
         </div>
+        <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST" class="card-buy-form">
+          <div class="card-qty-control">
+            <button type="button" class="qty-btn" onclick="stepQty(this, -1)">&#8722;</button>
+            <input type="number" name="quantity" value="1" min="1" max="20" class="card-qty-input" readonly>
+            <button type="button" class="qty-btn" onclick="stepQty(this, 1)">&#43;</button>
+          </div>
+          <button type="submit" class="btn btn-accent">Add</button>
+        </form>
       </div>
     </div>
     {% endfor %}
@@ -38,4 +46,13 @@
   <p style="color: var(--text-mid); padding: 3rem 0;">No products found in this category.</p>
   {% endif %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function stepQty(btn, delta) {
+  const input = btn.parentElement.querySelector('input[name="quantity"]');
+  input.value = Math.min(20, Math.max(1, parseInt(input.value) + delta));
+}
+</script>
 {% endblock %}

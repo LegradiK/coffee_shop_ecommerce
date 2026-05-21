@@ -9,8 +9,13 @@
   <div class="order-success">
     <div class="order-success-icon">&#9749;</div>
     <h2>Order Placed!</h2>
-    <p>Thanks for your order. We'll have it ready for collection or deliver it within 2–3 working days. A confirmation will be sent to your email.</p>
-    <a href="{{ url_for('index') }}" class="btn btn-accent">Back to Home</a>
+    <p class="order-number-label">Your order number</p>
+    <p class="order-number">{{ order_number }}</p>
+    <p>Thanks for your order. We'll have it ready for collection or deliver it within 2–3 working days.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a href="{{ url_for('order_lookup') }}" class="btn btn-outline">Track Order</a>
+      <a href="{{ url_for('index') }}" class="btn btn-accent">Back to Home</a>
+    </div>
   </div>
 
   {% else %}
@@ -108,7 +113,7 @@
       </div>
 
       <button type="submit" class="btn btn-accent" style="width:100%;text-align:center;">
-        Place Order &mdash; &pound;{{ "%.2f"|format(total) }}
+        Place Order &mdash; <span id="btn-total">&pound;{{ "%.2f"|format(total) }}</span>
       </button>
     </form>
 
@@ -128,15 +133,38 @@
       </div>
       <div class="summary-row">
         <span>Delivery</span>
-        <span>TBD</span>
+        <span id="delivery-fee-display">Free</span>
       </div>
       <div class="summary-row total">
         <span>Total</span>
-        <span>&pound;{{ "%.2f"|format(total) }}</span>
+        <span id="grand-total-display">&pound;{{ "%.2f"|format(total) }}</span>
       </div>
     </div>
   </div>
   {% endif %}
 
 </div>
+{% endblock %}
+
+{% block scripts %}
+{% if not order_placed %}
+<script>
+const FEES = {{ delivery_fees | tojson }};
+const subtotal = {{ total }};
+
+function updateTotals() {
+  const delivery = document.getElementById('delivery').value;
+  const fee = FEES[delivery] || 0;
+  const grand = subtotal + fee;
+  document.getElementById('delivery-fee-display').textContent =
+    fee === 0 ? 'Free' : '£' + fee.toFixed(2);
+  document.getElementById('grand-total-display').textContent =
+    '£' + grand.toFixed(2);
+  document.getElementById('btn-total').textContent =
+    '£' + grand.toFixed(2);
+}
+
+document.getElementById('delivery').addEventListener('change', updateTotals);
+</script>
+{% endif %}
 {% endblock %}
